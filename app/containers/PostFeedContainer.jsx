@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchCreatorPostFeed(creatorId))
         }
     }
-}
+},
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostFeed)
