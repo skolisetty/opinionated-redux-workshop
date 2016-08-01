@@ -1,3 +1,9 @@
 {
-  "extends": "georgebonnr"
+  "extends": "patreon",
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "rules": {
+    indent: 0
+  }
 }

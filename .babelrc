@@ -1,0 +1,8 @@
+{
+    "presets": ["stage-2", "react", "es2015"],
+    "env": {
+        "test": {
+          "plugins": [ [ "__coverage__", { "ignore": [ "app/**/test_dom.*.js", "app/**/fixture.*.js" ] } ] ]
+        }
+    }
+}
