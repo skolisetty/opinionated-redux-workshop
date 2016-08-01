@@ -23,6 +23,8 @@ export default React.createClass({
 
     componentDidMount() {
         // ??? fix me
+        const { creatorId } = this.props
+        this.props.onMount(creatorId)
     },
 
     renderPost(post) {
@@ -38,7 +40,7 @@ export default React.createClass({
         const { posts, isLoading } = this.props
 
         return isLoading ?
-            'Loading!' :
+            <div>'LOADING!'</div> :
             (<div style={postFeedStyle}>
                 { posts && posts.map(this.renderPost) }
             </div>)

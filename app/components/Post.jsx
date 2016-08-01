@@ -24,16 +24,16 @@ export default ({ post }) => {
     return (
         <div style={postStyle}>
             <div style={h2ContainerStyle}>
-                <h2 style={h2Style}>{ /* title goes here */ }</h2>
+                <h2 style={h2Style}>{post.attributes.title}</h2>
             </div>
             {
+                post.attributes.image && <img src={post.attributes.image.largeUrl}
+                                              style={imgStyle} />
                 // // ??? fix me: if an image exists for the post, show it here.
                 // ??? && <img src={???}
                 //             style={imgStyle} />
             }
-            {
-                // ??? fix me: content (text body) of post goes here
-            }
+            {post.attributes.content} // ??? fix me: content (text body) of post goes here
         </div>
     )
 }
