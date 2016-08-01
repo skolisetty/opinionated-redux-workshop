@@ -1,20 +1,3 @@
-import mapOrCall from 'utils/map-or-call'
-
-
-const denormalizeRelationships = (memo, { relationships, type, id }) => {
-    if (!relationships) return memo
-    Object.keys(relationships).forEach((key) => {
-        if (typeof relationships[key] === 'undefined') return
-        if (relationships[key] === null) {
-            return memo[type][id][key] = null
-        }
-        memo[type][id][key] = mapOrCall(
-            relationships[key],
-            (modelRef) => (memo[modelRef.type] || {})[modelRef.id]
-        )
-    })
-    return memo
-}
 
 const extendModelsCb = (state) => (memo, resource) => {
     const { type, id, relationships } = resource
@@ -35,8 +18,8 @@ const extendModelsCb = (state) => (memo, resource) => {
     return memo
 }
 
-export default (state, action) => {
-    if (!(action.payload && action.payload.data)) return state
+export default (state = {}, action) => {
+    if (!action.type.endsWith('_SUCCESS')) return state
     let { data, included } = action.payload
     let resources = Array.isArray(data) ? data : [data]
     if (included) resources = resources.concat(included)

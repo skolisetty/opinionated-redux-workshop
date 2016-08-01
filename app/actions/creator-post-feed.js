@@ -1,9 +1,9 @@
 import jsonApiUrl from 'utils/json-api-url'
 import fetch from 'isomorphic-fetch'
-import { camelizeKeys } from 'humps'
+import makeApiThunk from 'utils/make-api-thunk'
 
-export const FETCH_CREATOR_POST_FEED_START = 'FETCH_CREATOR_POST_FEED_START'
-export const FETCH_CREATOR_POST_FEED_SUCCESS = 'FETCH_CREATOR_POST_FEED_SUCCESS'
+
+export const FETCH_CREATOR_POST_FEED = 'FETCH_CREATOR_POST_FEED'
 
 const fetchCreatorPostFeedIncludes = ['user.null']
 const fetchCreatorPostFeedFields = {
@@ -22,29 +22,18 @@ const fetchCreatorPostFeedFields = {
 }
 
 export const fetchCreatorPostFeed = (creatorId) => {
-    return (dispatch, getState) => {
-        dispatch({
-            type: FETCH_CREATOR_POST_FEED_START
-        })
+    const url = jsonApiUrl('/stream', {
+        'include': fetchCreatorPostFeedIncludes,
+        'fields': fetchCreatorPostFeedFields,
+        'page': {
+            'cursor': 'null'
+        },
+        'filter': {
+            'is_by_creator': 'true',
+            'is_following': 'false',
+            'creator_id': creatorId
+        }
+    })
 
-        const url = jsonApiUrl('/stream', {
-            'include': fetchCreatorPostFeedIncludes,
-            'fields': fetchCreatorPostFeedFields,
-            'page': {
-                'cursor': 'null'
-            },
-            'filter': {
-                'is_by_creator': 'true',
-                'is_following': 'false',
-                'creator_id': creatorId
-            }
-        })
-
-        fetch(url).then(res => res.json()).then(res =>
-            dispatch({
-                type: FETCH_CREATOR_POST_FEED_SUCCESS,
-                payload: camelizeKeys(res.data)
-            })
-        )
-    }
+    return makeApiThunk(FETCH_CREATOR_POST_FEED, url)
 }
