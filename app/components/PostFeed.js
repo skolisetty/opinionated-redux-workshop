@@ -37,7 +37,7 @@ export default React.createClass({
         const { posts, isLoading } = this.props
 
         return isLoading ?
-            'LOADING!' :
+            <div>'LOADING!'</div> :
             (<div style={postFeedStyle}>
                 { posts && posts.map(this.renderPost) }
             </div>)
